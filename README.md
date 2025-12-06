@@ -34,8 +34,8 @@ Supports **JWT-based user login** and **API key-based service authentication**.
 
 ```bash
 # Clone repository
-git clone <your-repo-url>
-cd <your-repo-directory>
+git clone <https://github.com/bilaalk079/HNG-Stage-7>
+cd <HNG-Stage-7>
 
 # Install dependencies
 npm install
@@ -45,17 +45,18 @@ npx drizzle-kit migrate:dev
 
 # Start the server
 npm run start:dev
-
+```
 
 ## Environment Variables
 
 Create a `.env` file in the project root:
 
-```env
+```bash
 DATABASE_URL=<your-database-url>
 JWT_SECRET=<your-jwt-secret>
 API_KEY_EXPIRATION=<optional-api-key-expiration-in-seconds>
 PORT=3000
+```
 
 # API Routes Overview
 
