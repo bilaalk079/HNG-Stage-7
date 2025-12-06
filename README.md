@@ -54,7 +54,6 @@ Create a `.env` file in the project root:
 ```bash
 DATABASE_URL=<your-database-url>
 JWT_SECRET=<your-jwt-secret>
-API_KEY_EXPIRATION=<optional-api-key-expiration-in-seconds>
 PORT=3000
 ```
 
