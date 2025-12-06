@@ -10,6 +10,6 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
   imports: [UsersModule],
   providers: [ApiKeyService, AuthDetectorGuard, ApiKeyGuard, JwtAuthGuard],
   controllers: [ApiKeyController],
-  exports: [ApiKeyService],
+  exports: [ApiKeyService, AuthDetectorGuard, ApiKeyGuard, JwtAuthGuard],
 })
 export class ApiKeyModule {}

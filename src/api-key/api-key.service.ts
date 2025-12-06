@@ -32,9 +32,15 @@ export class ApiKeyService {
   }
 
   async revokeKey(id: string) {
-    return db
+    const [updated] = await db
       .update(apiKeys)
       .set({ isRevoked: true })
-      .where(eq(apiKeys.id, id));
+      .where(eq(apiKeys.id, id))
+      .returning();
+
+    return updated;
+  }
+  async getAllKeys(ownerId: string) {
+    return db.select().from(apiKeys).where(eq(apiKeys.ownerId, ownerId));
   }
 }

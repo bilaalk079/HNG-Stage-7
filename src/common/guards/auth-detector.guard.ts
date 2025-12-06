@@ -1,23 +1,26 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
-import { Observable } from 'rxjs';
 import { ApiKeyGuard } from 'src/api-key/guards/api-key.guard';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 
 @Injectable()
 export class AuthDetectorGuard implements CanActivate {
-  constructor(private apiKeyGuard: ApiKeyGuard, private jwtGuard: JwtAuthGuard) {}
+  constructor(
+    private apiKeyGuard: ApiKeyGuard,
+    private jwtGuard: JwtAuthGuard,
+  ) {}
 
-  canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
 
     if (request.headers.authorization?.startsWith('Bearer ')) {
-      return this.jwtGuard.canActivate(context);
+      return (await this.jwtGuard.canActivate(context)) as boolean;
     }
 
-    if (request.headers['x-api-key']) {
-      return this.apiKeyGuard.canActivate(context);
+    const apiKey = request.headers['x-api-key'] as string;
+    if (apiKey) {
+      return await this.apiKeyGuard.canActivate(context);
     }
 
-    return false;
+    return false; 
   }
 }

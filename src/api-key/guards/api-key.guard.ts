@@ -1,19 +1,20 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { ApiKeyService } from '../api-key.service';
 
 @Injectable()
 export class ApiKeyGuard implements CanActivate {
   constructor(private apiKeyService: ApiKeyService) {}
 
-  async canActivate(context: ExecutionContext) {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const key = request.headers['x-api-key'] as string;
-    if (!key) return false;
+    const rawKey = request.headers['x-api-key'] as string;
 
-    const validKey = await this.apiKeyService.verifyApiKey(key);
-    if (!validKey) return false;
+    if (!rawKey) throw new UnauthorizedException('No API key provided');
 
-    request.service = validKey;
+    const key = await this.apiKeyService.verifyApiKey(rawKey);
+    if (!key) throw new UnauthorizedException('Invalid or expired API key');
+
+    request.service = key;
     return true;
   }
 }
