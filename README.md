@@ -1,98 +1,88 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Mini Auth & API Key System
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A **mini authentication and API key system** built with **NestJS** and **Drizzle ORM** for service-to-service communication.  
+Supports **JWT-based user login** and **API key-based service authentication**.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## Features
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **User Authentication**
+  - Sign up (`/auth/signup`)
+  - Login (`/auth/login`) via JWT
+- **API Key Management**
+  - Generate API keys (`/keys/create`)
+  - List all keys (`GET /keys`)
+  - Expiration and revocation support
+- **Middleware**
+  - Detects Bearer token for user access
+  - Detects API keys for service access
+  - Protect routes based on access type
 
-## Project setup
+---
 
-```bash
-$ npm install
-```
+## Tech Stack
 
-## Compile and run the project
+- [NestJS](https://nestjs.com/) - Node.js framework  
+- [Drizzle ORM](https://orm.drizzle.team/) - Type-safe database ORM  
+- [JWT](https://jwt.io/) - JSON Web Tokens for authentication  
+- Database: PostgreSQL / MySQL / SQLite (configurable)  
 
-```bash
-# development
-$ npm run start
+---
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Run tests
+## Installation
 
 ```bash
-# unit tests
-$ npm run test
+# Clone repository
+git clone <your-repo-url>
+cd <your-repo-directory>
 
-# e2e tests
-$ npm run test:e2e
+# Install dependencies
+npm install
 
-# test coverage
-$ npm run test:cov
-```
+# Run Drizzle migrations
+npx drizzle-kit migrate:dev
 
-## Deployment
+# Start the server
+npm run start:dev
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## Environment Variables
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+Create a `.env` file in the project root:
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+```env
+DATABASE_URL=<your-database-url>
+JWT_SECRET=<your-jwt-secret>
+API_KEY_EXPIRATION=<optional-api-key-expiration-in-seconds>
+PORT=3000
 
-## Resources
+# API Routes Overview
 
-Check out a few resources that may come in handy when working with NestJS:
+## Authentication Routes
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### **POST /auth/signup**
+Create a new user account.
 
-## Support
+### **POST /auth/login**
+Authenticate a user and return a JWT token.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-## Stay in touch
+## API Key Routes
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### **POST /keys/create**
+Create a new API key for a user or service.
 
-## License
+### **GET /keys**
+Retrieve all API keys associated with the authenticated user.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### **PUT /keys/revoke**
+Revoke an existing API key. {pass id in body}
+
+
+## Protected Routes (API Key or JWT Required)
+
+### **GET /protected**
+Access a service route using an API key or JWT Auth.
+
+
